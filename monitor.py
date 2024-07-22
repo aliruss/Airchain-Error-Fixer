@@ -4,8 +4,10 @@ import time
 journalctl_cmd = "sudo journalctl -u stationd -f --no-hostname -o cat"
 
 error_keywords = [" Switchyard client connection error", "Failed to Init VRF", " error in json rpc client, with http response metadata", "VRF record is nil", "Failed to get transaction by hash: not found", "Failed to"]
-command_to_run = "sudo systemctl restart stationd"
-
+command_to_run = "sudo systemctl stop stationd"
+locate = "cd tracks"
+rollback = "go run cmd/main.go rollback"
+restart = "sudo systemctl restart stationd"
 def run_command(command):
     subprocess.run(command, shell=True)
 
@@ -21,7 +23,12 @@ def monitor_log():
             print(line)
             for error_keyword in error_keywords:
                 if error_keyword in line:
-                    run_command(command_to_run)
+                    run_command(locate) #locate
+                    run_command(command_to_run) #stop
+                    run_command(rollback) #rollback
+                    run_command(rollback) #rollback
+                    run_command(rollback) #rollback
+                    run_command(restart) #start again
                     print(f"Command '{command_to_run}' executed due to error '{error_keyword}' in log.")
                     break 
         time.sleep(1)
