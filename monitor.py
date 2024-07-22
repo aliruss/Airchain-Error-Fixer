@@ -5,7 +5,7 @@ journalctl_cmd = "sudo journalctl -u stationd -f --no-hostname -o cat"
 
 error_keywords = [" Switchyard client connection error","Retrying SubmitPod transaction", "Failed to Init VRF", " error in json rpc client, with http response metadata", "VRF record is nil", "Failed to get transaction by hash: not found", "Failed to"]
 command_to_run = "sudo systemctl stop stationd"
-locate = "cd tracks"
+locate = "cd ~/tracks/"
 rollback = "go run cmd/main.go rollback"
 restart = "sudo systemctl restart stationd"
 def run_command(command):
